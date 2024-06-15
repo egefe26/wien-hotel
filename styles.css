@@ -48,3 +48,8 @@ a {
     color: #0073e6;
     text-decoration: none;
 }
+
+#map {
+    height: 400px;
+    width: 100%;
+}
