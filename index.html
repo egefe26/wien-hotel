@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hotel Rankings in Vienna</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY"></script>
 </head>
 <body>
     <div class="container">
@@ -34,13 +35,14 @@
                     <th>Review Score (/10)</th>
                     <th>Normalized Rank Score</th>
                     <th>Booking Link</th>
-                    <th>Google Maps Link</th>
+                    <th>Google Maps</th>
                 </tr>
             </thead>
             <tbody>
                 <!-- Table rows will be populated by JavaScript -->
             </tbody>
         </table>
+        <div id="map" style="height: 400px; width: 100%; margin-top: 20px;"></div>
     </div>
     <script src="script.js"></script>
 </body>
