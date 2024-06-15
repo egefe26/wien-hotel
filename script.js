@@ -7,7 +7,9 @@ const hotels = [
         reviews: 13613,
         reviewScore: 8.6,
         bookingLink: "https://www.booking.com/hotel/at/motel-one-wien-westbahnhof.en-gb.html",
-        mapsLink: "https://goo.gl/maps/dYGoVbW42gUpwV3bA"
+        mapsLink: "https://goo.gl/maps/dYGoVbW42gUpwV3bA",
+        lat: 48.197910,
+        lng: 16.337580
     },
     {
         name: "Ibis budget Wien Messe",
@@ -17,7 +19,9 @@ const hotels = [
         reviews: 9426,
         reviewScore: 7.5,
         bookingLink: "https://www.booking.com/hotel/at/ibis-budget-wien-messe.en-gb.html",
-        mapsLink: "https://goo.gl/maps/WmVG5UFCuFuqZBkF6"
+        mapsLink: "https://goo.gl/maps/WmVG5UFCuFuqZBkF6",
+        lat: 48.220339,
+        lng: 16.399076
     },
     {
         name: "JUFA Hotel Wien City",
@@ -27,7 +31,9 @@ const hotels = [
         reviews: 8947,
         reviewScore: 8.5,
         bookingLink: "https://www.booking.com/hotel/at/jufa-wien-city.en-gb.html",
-        mapsLink: "https://goo.gl/maps/gkdcwPPc9qubKkZz6"
+        mapsLink: "https://goo.gl/maps/gkdcwPPc9qubKkZz6",
+        lat: 48.175040,
+        lng: 16.408950
     },
     {
         name: "Holiday Inn Vienna City",
@@ -37,7 +43,9 @@ const hotels = [
         reviews: 1473,
         reviewScore: 8.3,
         bookingLink: "https://www.booking.com/hotel/at/holiday-inn-vienna-city.en-gb.html",
-        mapsLink: "https://goo.gl/maps/oyd1F23zqsn2"
+        mapsLink: "https://goo.gl/maps/oyd1F23zqsn2",
+        lat: 48.193570,
+        lng: 16.359420
     },
     {
         name: "Austria Trend Hotel Europa Wien",
@@ -47,7 +55,9 @@ const hotels = [
         reviews: 4985,
         reviewScore: 8.6,
         bookingLink: "https://www.booking.com/hotel/at/austria-trend-europa.en-gb.html",
-        mapsLink: "https://goo.gl/maps/xJk8eXuS1dA2"
+        mapsLink: "https://goo.gl/maps/xJk8eXuS1dA2",
+        lat: 48.206050,
+        lng: 16.369550
     },
     {
         name: "Hotel NH Wien City",
@@ -57,7 +67,9 @@ const hotels = [
         reviews: 2928,
         reviewScore: 8.1,
         bookingLink: "https://www.booking.com/hotel/at/nh-wien-city.en-gb.html",
-        mapsLink: "https://goo.gl/maps/p3G4QJgFdDT2"
+        mapsLink: "https://goo.gl/maps/p3G4QJgFdDT2",
+        lat: 48.201500,
+        lng: 16.353890
     },
     {
         name: "Flemings Selection Hotel Wien-City",
@@ -67,7 +79,9 @@ const hotels = [
         reviews: 2896,
         reviewScore: 8.5,
         bookingLink: "https://www.booking.com/hotel/at/fleming-s-deluxe-wien-city.en-gb.html",
-        mapsLink: "https://goo.gl/maps/e2KrFQ3KsCm"
+        mapsLink: "https://goo.gl/maps/e2KrFQ3KsCm",
+        lat: 48.207530,
+        lng: 16.351540
     }
 ];
 
@@ -89,9 +103,9 @@ function calculateRankScores() {
     const minDistance = Math.min(...hotels.map(h => h.distance));
     
     hotels.forEach(hotel => {
-        const normalizedPrice = hotel.pricePerNight / maxPrice;
+        const normalizedPrice = 1 - (hotel.pricePerNight / maxPrice);  // Lower price gets higher score
         const normalizedReviews = hotel.reviews / maxReviews;
-        const normalizedDistance = (hotel.distance - minDistance) / (maxDistance - minDistance);
+        const normalizedDistance = 1 - ((hotel.distance - minDistance) / (maxDistance - minDistance));  // Closer distance gets higher score
         
         const rawScore = (normalizedPrice * priceWeight.value) + (normalizedReviews * reviewWeight.value) + (normalizedDistance * distanceWeight.value);
         hotel.rawScore = rawScore;
@@ -101,36 +115,55 @@ function calculateRankScores() {
     const minRawScore = Math.min(...hotels.map(h => h.rawScore));
     
     hotels.forEach(hotel => {
-        hotel.rankScore = (hotel.rawScore - minRawScore) / (maxRawScore - minRawScore);
-    });
-    
-    hotels.sort((a, b) => b.rankScore - a.rankScore);
-    displayHotels();
-}
+        hotel.rankScore = (hotel.rawScore - minRawScore) / (maxRawScore - minHere's the complete and corrected implementation of the HTML, CSS, and JavaScript to display the hotel rankings, normalize the rank scores, and embed Google Maps directly in the webpage.
 
-function displayHotels() {
-    const tbody = document.querySelector('#hotelsTable tbody');
-    tbody.innerHTML = '';
-    
-    hotels.forEach(hotel => {
-        const tr = document.createElement('tr');
-        
-        tr.innerHTML = `
-            <td>${hotel.name}</td>
-            <td>${hotel.distance}</td>
-            <td>${hotel.pricePerNight}</td>
-            <td>${hotel.totalPrice}</td>
-            <td>${hotel.reviews}</td>
-            <td>${hotel.reviewScore}</td>
-            <td>${hotel.rankScore.toFixed(2)}</td>
-            <td><a href="${hotel.bookingLink}" target="_blank">Book Now</a></td>
-            <td><a href="${hotel.mapsLink}" target="_blank">View on Map</a></td>
-        `;
-        
-        tbody.appendChild(tr);
-    });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    updateWeights();
-});
+### 1. HTML (`index.html`)
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Rankings in Vienna</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Hotel Rankings in Vienna</h1>
+        <div class="sliders">
+            <div>
+                <label for="priceWeight">Price Weight: <span id="priceWeightValue">1</span></label>
+                <input type="range" id="priceWeight" name="priceWeight" min="0" max="10" value="1" step="0.1" oninput="updateWeights()">
+            </div>
+            <div>
+                <label for="reviewWeight">Review Score Weight: <span id="reviewWeightValue">1</span></label>
+                <input type="range" id="reviewWeight" name="reviewWeight" min="0" max="10" value="1" step="0.1" oninput="updateWeights()">
+            </div>
+            <div>
+                <label for="distanceWeight">Distance Weight: <span id="distanceWeightValue">1</span></label>
+                <input type="range" id="distanceWeight" name="distanceWeight" min="0" max="10" value="1" step="0.1" oninput="updateWeights()">
+            </div>
+        </div>
+        <table id="hotelsTable">
+            <thead>
+                <tr>
+                    <th>Hotel</th>
+                    <th>Distance to City Center (km)</th>
+                    <th>Price per Night (€)</th>
+                    <th>Total Price (€)</th>
+                    <th>Number of Reviews</th>
+                    <th>Review Score (/10)</th>
+                    <th>Normalized Rank Score</th>
+                    <th>Booking Link</th>
+                    <th>Google Maps</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table rows will be populated by JavaScript -->
+            </tbody>
+        </table>
+        <div id="map" style="height: 400px; width: 100%; margin-top: 20px;"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
