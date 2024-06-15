@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Rankings in Vienna</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Hotel Rankings in Vienna</h1>
+        <div class="sliders">
+            <div>
+                <label for="priceWeight">Price Weight: <span id="priceWeightValue">1</span></label>
+                <input type="range" id="priceWeight" name="priceWeight" min="0" max="10" value="1" step="0.1" oninput="updateWeights()">
+            </div>
+            <div>
+                <label for="reviewWeight">Review Score Weight: <span id="reviewWeightValue">1</span></label>
+                <input type="range" id="reviewWeight" name="reviewWeight" min="0" max="10" value="1" step="0.1" oninput="updateWeights()">
+            </div>
+            <div>
+                <label for="distanceWeight">Distance Weight: <span id="distanceWeightValue">1</span></label>
+                <input type="range" id="distanceWeight" name="distanceWeight" min="0" max="10" value="1" step="0.1" oninput="updateWeights()">
+            </div>
+        </div>
+        <table id="hotelsTable">
+            <thead>
+                <tr>
+                    <th>Hotel</th>
+                    <th>Distance to City Center (km)</th>
+                    <th>Price per Night (€)</th>
+                    <th>Total Price (€)</th>
+                    <th>Number of Reviews</th>
+                    <th>Review Score (/10)</th>
+                    <th>Normalized Rank Score</th>
+                    <th>Booking Link</th>
+                    <th>Google Maps Link</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table rows will be populated by JavaScript -->
+            </tbody>
+        </table>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
